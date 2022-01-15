@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+
+    <body>
+        <table>
+            <tr>
+                <th>API Name</th>
+                <th>API Description</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>1. Timezone</td>
+                <td><p id="tabledescriptions">Description</p>
+                    <p>The timezone at the given longtitute and latitude.</p>
+                    <label for="longitude">Enter the Longitude: </label>
+                    <input type="text" id="long" name="longitude">
+                    <label for="latitude">Enter the Latitude: </label>
+                    <input type="text" id="lat" name="latitude">
+                </td>
+                <td><button id="buttonrun1">Submit</button></td>
+            </tr>
+            <tr>
+                <td>2. Ocean Info</td>
+                <td><p id="tabledescriptions">Description</p>
+                    <p>The nearest Ocean to the longitude & latitude given above.</p>
+                    <label for="longitude1">Enter the Longitude: </label>
+                    <input type="text" id="long1" name="longitude1">
+                    <label for="latitude1">Enter the Latitude: </label>
+                    <input type="text" id="lat1" name="latitude1">
+                </td>
+                <td><button id="buttonrun2">Submit</button></td>
+            </tr>
+            <tr>
+                <td>3. Weather ICAO</td>
+                <td><p id="tabledescriptions">Description</p>
+                <p>Display's the weather at a given Airport by its ICAO airport code.</p>
+                <label for="ICAOCode">Enter ICAO Code</label>
+                <input type="text" id="selAirport" name="ICAOCode">
+                </td>
+                <td><button id="buttonrun3">Submit</button></td>
+            </tr>
+            <tr>
+                <td><p id="tabledescriptions">Result of Timezone API Call</p></td>
+                <td><p id="sunrise"></p>
+                    <p id="sunset"></p>
+                    <p id="country"></p>
+                    <p id="timeZone"></p>
+                    <p id="timeNow"></p>
+                </td>
+            </tr>
+            <tr>
+                <td><p id="tabledescriptions">Result of Ocean API Call</p></td>
+                <td><p id="ocean"></p>
+                </td>
+            </tr>
+            <tr>
+                <td><p id="tabledescriptions">Result of Weather by ICAO Code Call</p></td>
+                <td>
+                    <p id="airName"></p>
+                    <p id="windSp"></p>
+                    <p id="temp"></p>
+                    <p id="windDir"></p> 
+                </td>
+            </tr>
+        </table>
+        <script type="application/javascript" src="libs/js/jquery-2.2.3.min.js"></script>
+		<script type="application/javascript" src="libs/js/main.js"></script>
+    </body>
+
+    <footer>
+
+
+    </footer>
+</html>
