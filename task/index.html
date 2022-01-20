@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="libs/css/style.css">
     </head>
 
     <body>
@@ -23,7 +24,7 @@
             </tr>
             <tr>
                 <td>2. Ocean Info</td>
-                <td><p id="tabledescriptions">Description</p>
+                <td id=""><p id="tabledescriptions">Description</p>
                     <p>The nearest Ocean to the longitude & latitude given above.</p>
                     <label for="longitude1">Enter the Longitude: </label>
                     <input type="text" id="long1" name="longitude1">
@@ -37,31 +38,32 @@
                 <td><p id="tabledescriptions">Description</p>
                 <p>Display's the weather at a given Airport by its ICAO airport code.</p>
                 <label for="ICAOCode">Enter ICAO Code</label>
-                <input type="text" id="selAirport" name="ICAOCode">
+                <select name="ICAOCode" id="selAirport">
+                    <option value="yssy">Sydney Kingsford Smith International</option>
+                    <option value="egll">London Heathrow Airport</option>
+                </select>
                 </td>
                 <td><button id="buttonrun3">Submit</button></td>
             </tr>
-            <tr>
-                <td><p id="tabledescriptions">Result of Timezone API Call</p></td>
-                <td><p id="sunrise"></p>
-                    <p id="sunset"></p>
-                    <p id="country"></p>
-                    <p id="timeZone"></p>
-                    <p id="timeNow"></p>
+            <tr colspan="3">
+                <td id="timezoneRes"><p id="tabledescriptions">Result of Timezone API Call</p>
+                    <p>Sunrise:</p><p id="sunrise"></p>
+                    <p>Sunset:</p><p id="sunset"></p>
+                    <p>Country:</p><p id="country"></p>
+                    <p>Time Zone:</p><p id="timeZone"></p>
+                    <p>Time Now:</p><p id="timeNow"></p>
                 </td>
-            </tr>
-            <tr>
-                <td><p id="tabledescriptions">Result of Ocean API Call</p></td>
-                <td><p id="ocean"></p>
+               
+                <td id="weatherRes"><p id="tabledescriptions">Result of Weather by ICAO Code Call</p>
+                    <p>Airport Name: </p><p id="airName"></p>
+                    <p>Wind Speed: </p><p id="windSp"></p>
+                    <p>Temperature (Celcius): </p><p id="temp"></p>
+                    <p>Wind Direction: </p><p id="windDir"></p>
                 </td>
-            </tr>
-            <tr>
-                <td><p id="tabledescriptions">Result of Weather by ICAO Code Call</p></td>
-                <td>
-                    <p id="airName"></p>
-                    <p id="windSp"></p>
-                    <p id="temp"></p>
-                    <p id="windDir"></p> 
+
+                
+                <td id="oceanRes"><p id="tabledescriptions">Result of Ocean API Call</p>
+                    <p>Ocean: </p><p id="ocean"></p>
                 </td>
             </tr>
         </table>

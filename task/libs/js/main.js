@@ -1,5 +1,10 @@
 $('#buttonrun1').on('click', function() {
 
+    $('#timezoneRes').show();
+    $('#weatherRes').hide();
+    $('#oceanRes').hide();
+
+
     $.ajax({
       url: "libs/php/getTimeZone.php",
       type: 'POST',
@@ -32,6 +37,10 @@ $('#buttonrun1').on('click', function() {
 
 $('#buttonrun2').on('click', function() {
 
+    $('#weatherRes').hide();
+    $('#timezoneRes').hide();
+    $('#oceanRes').show();
+
   $.ajax({
     url: "libs/php/getOcean.php",
     type: 'POST',
@@ -60,6 +69,11 @@ $('#buttonrun2').on('click', function() {
 });
 
       $('#buttonrun3').on('click', function() {
+
+      $('#oceanRes').hide();
+      $('#timezoneRes').hide();
+      $('#weatherRes').show();
+      
 
         $.ajax({
           url: "libs/php/getWeather.php",
