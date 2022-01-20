@@ -22,6 +22,9 @@ document.getElementById("typeWrite").onload = function typeWriter() {
 }
 
 /**About Me Section */
+
+
+
 function openSection(evt, sectionName) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
@@ -37,7 +40,7 @@ function openSection(evt, sectionName) {
 }
 
 document.getElementById("task").onclick = function() {
-  document.location='../task/index.html';
+  document.location="../task/index.html";
 }
 
 
