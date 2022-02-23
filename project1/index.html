@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Thomas Moy - Gazetteer</title>
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+        <link href="select2/select2.min.css" rel="stylesheet" />
+        <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="CSS/style.css">
+        <link rel="stylesheet" href="css/leaflet.css"/>
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+    <div id="loader"></div>
+    <div class="container-fluid">
+        <div id="map-container">
+            <button id="viewport-930" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Country Info</button>
+            <div id="top-map">
+            <select id="select-country" class="form-select" aria-label="Default select example">
+                <option value=""></option>
+            </select>
+            
+            </div>
+            <div id="map"></div>
+            
+            
+            <div id="country_info">
+                
+                <table style="font-size: 1.6vh; margin: 5%;">
+                    <p class="countryName" style="text-align: center; font-weight: bold;"></p>
+                    <tr><td class="flag" colspan="3"><div id="flag-container"><img class="countryFlag" src="" alt=""></div></td></tr>
+                    <tr><td class="title">Capital City</td><td class="capital"></td></tr>
+                    <tr><td class="title">Population</td><td class="population"></td></tr>
+                    <tr><td class="title">Wikipedia</td><td class="wikipedia"><a class="wikipedia-link" href="" target="_blank"></a></td></tr>
+                    <tr><td class="title">Is today a public holiday in <span class="countryName"></span>?</td></tr>
+                    <tr><td class="public-holiday-boolean"></td><td class="public-holiday-name"></td></tr>
+                </table>
+                </div>
+                
+            </div>
+
+            <div class="offcanvas offcanvas-bottom h-auto" data-bs-scroll="false" data-bs-backdrop="false" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+                <div id="viewport-930-div-2"  class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasBottomLabel" style="text-align: center;" id="country-name-small-screen"></h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body large">
+                    <table style="font-size: 1.7vh;">
+                    <p class="countryName" style="text-align: center; font-weight: bold;"></p>
+                    <tr><td><img class="countryFlag" src="" alt="" style="height: 5vh; width: auto;"></td></tr>
+                    <tr><td>Capital City</td><td class="capital"></td></tr>
+                    <tr><td>Population</td><td class="population"></td></tr>
+                    <tr><td>Wikipedia</td><td class="wikipedia"><a class="wikipedia-link" href="" target="_blank"></a></td></tr>
+                    <tr><td>Is today a public holiday in <span class="countryName"></span>?</td></tr>
+                    <tr><td class="public-holiday-boolean"></td><td class="public-holiday-name"></td></tr>
+                    </table>
+                </div>
+                </div>
+
+                  
+            
+    </div>
+                <div id="covid-modal" class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title">COVID-19 Data</h5>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                        <table class="modal-table">
+                            <tr><td class="modal-td">COVID-19 Data for <span class="covid-data-date"></span></td></tr>
+                            <tr><td class="modal-td">Total Infections<td><td class="modal-td">Total Deaths</td></tr>
+                            <tr><td class="modal-td"><span class="total-infections"></span><td><td class="modal-td"><span class="total-deaths"></span></td></tr>
+                        </table>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div id="weather-modal" class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title">Weather</h5>
+                        </button>
+                        </div>
+                        <div class="model-body">
+                        <table class="modal-table">
+                        <tr><td class="weather-city" class="modal-td"></td></tr>
+                        <tr><td class="modal-td"><img class="weather-icon" src=""></td><td class="weather-description" class="modal-td"></td><td class="temperature" class="modal-td"></td></tr>
+                        </table>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                    </div>
+                <div id="exchange-modal" class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title">Live Exchange Rate</h5>
+                        </button>
+                        </div>
+                        <div class="modal-body" style=>
+                        <table class="modal-table">
+                            <tr><td class="modal-td">Currency</td><td class="currency"></td></tr>
+                            <tr><td class="modal-td">1 USD</td><td><span class="exchange-rate" class="modal-td"></span>&nbsp;<span class="currency" class="modal-td"></span></td></tr>
+                        </table>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+    
+        
+        <script src="javascript/jquery.js"></script>
+        <script src="select2/select2.min.js"></script>
+        <script src="javascript/leaflet.js"></script>
+        <script src="javascript/easy-button.js"></script>
+        <script src="javascript/leaflet.markercluster.js"></script>
+        <script src="JavaScript/customscripts.js"></script>
+        <script src="javascript/bootstrap.min.js"></script>
+        
+       
+    </body>
+
+</html>
