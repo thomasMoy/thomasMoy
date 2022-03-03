@@ -31,6 +31,52 @@ function showPage() {
   document.getElementById("map-container").style.opacity = "100";
 }
 
+var redMarker = L.ExtraMarkers.icon({
+    icon: 'fa-compass',
+    markerColor: 'red',
+    shape: 'circle',
+    prefix: 'fa'
+  });
+
+let poi = new L.MarkerClusterGroup();
+
+function getPOI(iso2) {
+
+    if(iso2 == 'GB'){
+        iso2 = 'uk';
+    
+    }
+
+    iso2 = iso2.toLowerCase();
+    
+    console.log(iso2);
+
+    $.ajax({
+        type: "POST",
+        url: "php/getPOI.php",
+        dataType: "json",
+        data: {
+            iso2: iso2
+        },
+        success: function(data) {
+            console.log(data);
+
+            poi.clearLayers();
+
+            let poiArray = data.data.results;
+
+            for (let i=0; i<poiArray.length; i++){
+                let lat = data.data.results[i].coordinates.latitude;
+                let lng = data.data.results[i].coordinates.longitude;
+                poi.addLayer(L.marker([lat, lng], {icon: redMarker}).bindPopup( "<h4>" + data.data.results[i].name + "</h4>"
+                + "<p>" + data.data.results[i].snippet + "</p>"
+                ));
+            }
+            map.addLayer(poi);
+        }
+    })
+}
+
 function getCurrentExchange(currency){
     $.ajax({
         type: "POST",
@@ -40,11 +86,9 @@ function getCurrentExchange(currency){
             currency: currency
         },
         success: function(data){
-        
-            $('.exchange-rate').html(data.data.rates[currency]);
             
-
-            
+            console.log(data);
+            $('#current-digit').html(data.data.rates[currency].toFixed(3));
         }
     })
 }
@@ -52,11 +96,8 @@ function getCurrentExchange(currency){
 function isPublicHoliday(countryCode) {
     let todayDate = new Date();
     let year = todayDate.getFullYear();
-    console.log(year);
     let month = todayDate.getMonth()+1;
-    console.log(month);
     let day = todayDate.getDate();
-    console.log(day);
 
     $.ajax({
         type: "POST",
@@ -69,13 +110,12 @@ function isPublicHoliday(countryCode) {
             day: day
         },
         success: function(data){
-            console.log(data);
+            
             
             if(data.data.length === 0){
-                $(".public-holiday-boolean").html("No");
+                $("#public-holiday").html("No");
             } else {
-                $(".public-holiday-boolean").html("Yes");
-                $(".public-holiday-name").html(data.data[0].name);
+                $("#public-holiday").html(data.data[0].name);
             }
         }
     })
@@ -100,7 +140,7 @@ function getWiki(north, east, south, west){
             for (let i=0; i<data.data.length; i++){
                 let lat = data.data[i].lat;
                 let lng = data.data[i].lng;
-                wikipedia.addLayer(L.marker([lat, lng]).bindPopup( "<img src='" +
+                wikipedia.addLayer(L.marker([lat, lng], {icon: redMarker}).bindPopup( "<img src='" +
                 data.data[i].thumbnailImg +
                 "' width='100px' height='100px' alt='" +
                 data.data[i].title +
@@ -147,19 +187,92 @@ function getBorder(countryCode){
     
 }
 
-function getWeather(capitalCity){
+function getWeather(lat, lng){
     $.ajax({
         url: "php/getWeather.php",
         type: 'POST',
         dataType: 'json',
         data: {
-            capital_City: capitalCity
+            lat: lat,
+            lng: lng
         },
         success: function(result) {
 
-                $('.weather-icon').attr("src", 'https://openweathermap.org/img/wn/' + result.weather[0].icon + '@2x.png')
-                $('.weather-description').html(result.weather[0].description.toUpperCase());
-                $('.temperature').html(result.main.temp.toFixed() + '&#8451;');
+            console.log(result);
+
+            function addTrailingZeros(returnedMilliTime) {
+                let stringTime = returnedMilliTime.toString();
+                let timeWithZeros = stringTime + "000";
+                let newTimeNumWithZeros = parseInt(timeWithZeros);
+                return newTimeNumWithZeros;
+            }
+
+            let ForecastDayOne = addTrailingZeros(result.data.daily[1].dt);
+            let ForecastDayTwo = addTrailingZeros(result.data.daily[2].dt);
+            let ForecastDayThree = addTrailingZeros(result.data.daily[3].dt);
+
+
+            
+            function getDay(millitime) {
+            let date = new Date(millitime);
+            let day;
+            switch (date.getDay()) {
+
+                case 0:
+                    day = "Sunday";
+                break;
+
+                case 1:
+                    day = "Monday";
+                break;
+
+                case 2:
+                    day = "Tuesday";
+                break;
+
+                case 3:
+                    day = "Wednesday";
+                break;
+
+                case 4:
+                    day = "Thursday";
+                break;
+
+                case 5:
+                    day = "Friday";
+                break;
+
+                case 6:
+                    day = "Saturday";
+                break;
+
+                }
+                   return day; 
+                }
+
+                let dayOne = getDay(ForecastDayOne);
+                let dayTwo = getDay(ForecastDayTwo);
+                let dayThree = getDay(ForecastDayThree);
+        
+                $('#weather-icon').attr("src", 'https://openweathermap.org/img/wn/' + result.data.current.weather[0].icon + '@2x.png')
+                $('#weather-desc').html(result.data.current.weather[0].description.toUpperCase());
+                $('#temperature').html(result.data.current.temp.toFixed() + '&#8451;');
+                $('#feels-like').html(result.data.current.feels_like.toFixed() + '&#8451;');
+                $('#day-one-day').html(dayOne);
+                $('#day-two-day').html(dayTwo);
+                $('#day-three-day').html(dayThree);
+                $('#day-one-icon').attr("src", 'https://openweathermap.org/img/wn/' + result.data.daily[1].weather[0].icon + '@2x.png');
+                $('#day-one-temp').html(result.data.daily[1].temp.day.toFixed() + '&#8451;');
+                $('#day-two-icon').attr("src", 'https://openweathermap.org/img/wn/' + result.data.daily[2].weather[0].icon + '@2x.png');
+                $('#day-two-temp').html(result.data.daily[2].temp.day.toFixed() + '&#8451;');
+                $('#day-three-icon').attr("src", 'https://openweathermap.org/img/wn/' + result.data.daily[3].weather[0].icon + '@2x.png');
+                $('#day-three-temp').html(result.data.daily[3].temp.day.toFixed() + '&#8451;');
+                $('#day-one-desc').html(result.data.daily[1].weather[0].description.toUpperCase());
+                $('#day-two-desc').html(result.data.daily[2].weather[0].description.toUpperCase());
+                $('#day-three-desc').html(result.data.daily[3].weather[0].description.toUpperCase());
+                
+
+
 
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -190,24 +303,32 @@ function getCountryInfo(countryCode) {
         success: function(result) {
 
             let currency = Object.keys(result[0].currencies)[0];
+
+            let currencyName = result[0].currencies[Object.keys(result[0].currencies)[0]].name.toUpperCase();
+            let symbol = result[0].currencies[Object.keys(result[0].currencies)[0]].symbol;
+            $('#current-symbol').html(symbol);
+            $('.currency-name').html(currencyName);
             $('.countryName').html(result[0].name.common);
             $('#country-name-small-screen').html(result[0].name.common);
             $('.capital').html(result[0].capital);
-            $('.population').html(numberWithCommas(result[0].population));
+            $('#population').html(numberWithCommas(result[0].population));
             $('.currency').html(currency);
             $('.currency-code').html(currency);
-            $('.countryFlag').attr("src",result[0].flags.png);
-            $('.wikipedia-link').attr("href", "https://en.wikipedia.org/wiki/" + result[0].name.common);
-            $('.wikipedia-link').html("Click for " + result[0].name.common + " on Wikipedia" );
+            $('#countryFlag').attr("src",result[0].flags.png);
+            $('#wikipedia-link').attr("href", "https://en.wikipedia.org/wiki/" + result[0].name.common);
+            $('#wikipedia-link').html(result[0].name.common + " on Wikipedia");
             let latlng = result[0].capitalInfo.latlng;
+            let lat = latlng[0];
+            let lng = latlng[1];
             map.setView(latlng);
             getBorder(countryCode);
             $('.weather-city').html("Weather in " + result[0].capital);
-            getWeather(result[0].capital.toString());
+            getWeather(lat, lng);
             getCovid(countryCode);
             let iso2 = result[0].cca2;
             isPublicHoliday(iso2);
             getCurrentExchange(currency);
+            getPOI(iso2);
             
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -261,21 +382,28 @@ function getCovid(countryCode) {
     });
 }
 
-let easyButtons = [
-    
-  L.easyButton('<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">coronavirus</i>', function(){
+let covidButton = L.easyButton('<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">coronavirus</i>', function(){
     $('#covid-modal').modal('show');
-  }),
+  });
 
-  L.easyButton( '<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">thermostat</i>', function(){
+let weatherButton = L.easyButton( '<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">thermostat</i>', function(){
     $('#weather-modal').modal('show');
-  }),
+  });
 
-  L.easyButton( '<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">currency_exchange</i>', function(){
+let exchangeButton = L.easyButton( '<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">currency_exchange</i>', function(){
     $('#exchange-modal').modal('show');
-  })
+  });
+    
+let countryInfoButton =  L.easyButton( '<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">info</i>', function(){
+    $('#countryinformation-modal').modal('show');
+  });
 
-];
+  weatherButton.button.style.backgroundColor = 'yellow';
+  covidButton.button.style.backgroundColor = 'red';
+  exchangeButton.button.style.backgroundColor = 'green';
+  countryInfoButton.button.style.backgroundColor = 'blue';
+
+let easyButtons = [covidButton, weatherButton, exchangeButton, countryInfoButton];
 
 
 L.easyBar(easyButtons).addTo(map);
@@ -290,7 +418,6 @@ function getUserLocation() {
             var latlng = new L.LatLng(latitude, longitude);
             map.setView(latlng, 5);
             map.addLayer(worldStreetMap);
-            L.marker(latlng).addTo(map);
             
             $.ajax({
                 url: "php/getUserCountry.php",
@@ -303,11 +430,12 @@ function getUserLocation() {
     
                     if (result.status.name == "ok") {
                     
-
+                        console.log(result);
                         countryCode = result.data.results[0].components["ISO_3166-1_alpha-3"];
+                        let iso2 = result.data.results[0].components["ISO_3166-1_alpha-2"];
                         let userCountry = result.data.results[0].components["country"];
                         $('#select-country').prepend(`<option value="${countryCode}" selected>${userCountry}</option>`);
-                        
+                        getPOI(iso2);
                         getBorder(countryCode);
                         getCountryInfo(countryCode);
                         getCovid(countryCode);
@@ -334,9 +462,9 @@ function populateCountriesList() {
         url: "php/populateCountriesList.php",
         dataType: "json",
         success: function(data) {
-            
-            for(let i = 0; i < data['data'].length; i++){
-                $('#select-country').append(`<option value="${data['data'][i]['properties']['iso_a3']}">${data['data'][i]['properties']['name']}</option>`);
+    
+            for(let i = 0; i < data.length; i++){
+                $('#select-country').append(`<option value="${data[i][1]}">${data[i][0]}</option>`);
             }
             
         },

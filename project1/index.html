@@ -3,14 +3,19 @@
     <head>
         <meta charset="UTF-8">
         <title>Thomas Moy - Gazetteer</title>
-        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+        <link rel="stylesheet" href="css/leaflet.extra-markers.min.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+        <link rel="manifest" href="images/favicon/site.webmanifest">
         <link href="select2/select2.min.css" rel="stylesheet" />
         <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="CSS/style.css">
         <link rel="stylesheet" href="css/leaflet.css"/>
         <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+        <link rel="stylesheet" href="css/easy-button.css">
+        
         
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -18,7 +23,6 @@
     <div id="loader"></div>
     <div class="container-fluid">
         <div id="map-container">
-            <button id="viewport-930" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Country Info</button>
             <div id="top-map">
             <select id="select-country" class="form-select" aria-label="Default select example">
                 <option value=""></option>
@@ -26,108 +30,124 @@
             
             </div>
             <div id="map"></div>
-            
-            
-            <div id="country_info">
-                
-                <table style="font-size: 1.6vh; margin: 5%;">
-                    <p class="countryName" style="text-align: center; font-weight: bold;"></p>
-                    <tr><td class="flag" colspan="3"><div id="flag-container"><img class="countryFlag" src="" alt=""></div></td></tr>
-                    <tr><td class="title">Capital City</td><td class="capital"></td></tr>
-                    <tr><td class="title">Population</td><td class="population"></td></tr>
-                    <tr><td class="title">Wikipedia</td><td class="wikipedia"><a class="wikipedia-link" href="" target="_blank"></a></td></tr>
-                    <tr><td class="title">Is today a public holiday in <span class="countryName"></span>?</td></tr>
-                    <tr><td class="public-holiday-boolean"></td><td class="public-holiday-name"></td></tr>
-                </table>
+            <!-- Modal -->
+            <div id="covid-modal" class="modal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div id="covid-modal-content" class="modal-content">
+                    <div id="covid-modal-header" class="modal-header">
+                    <h5 class="modal-title">**COVID-19 Data for <span class="countryName"></span>.</h5>
+                    <h6>**Data for <span class="covid-data-date"></span></h6>
+                    </div>
+                    <div class="modal-body">
+                        <table id="covid-table">
+                            <tr class="covid-tr"><td>Confirmed Cases:</td><td class="total-infections"></td></tr>
+                            <tr class="covid-tr"><td>Total Deaths:</td><td class="total-deaths"></td></tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>       
+                        </div>
                 </div>
-                
+                </div>
             </div>
-
-            <div class="offcanvas offcanvas-bottom h-auto" data-bs-scroll="false" data-bs-backdrop="false" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
-                <div id="viewport-930-div-2"  class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasBottomLabel" style="text-align: center;" id="country-name-small-screen"></h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body large">
-                    <table style="font-size: 1.7vh;">
-                    <p class="countryName" style="text-align: center; font-weight: bold;"></p>
-                    <tr><td><img class="countryFlag" src="" alt="" style="height: 5vh; width: auto;"></td></tr>
-                    <tr><td>Capital City</td><td class="capital"></td></tr>
-                    <tr><td>Population</td><td class="population"></td></tr>
-                    <tr><td>Wikipedia</td><td class="wikipedia"><a class="wikipedia-link" href="" target="_blank"></a></td></tr>
-                    <tr><td>Is today a public holiday in <span class="countryName"></span>?</td></tr>
-                    <tr><td class="public-holiday-boolean"></td><td class="public-holiday-name"></td></tr>
-                    </table>
-                </div>
-                </div>
-
-                  
-            
-    </div>
-                <div id="covid-modal" class="modal" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <h5 class="modal-title">COVID-19 Data</h5>
-                        </button>
+            <!--Model End-->
+            <!-- Modal -->
+            <div id="weather-modal" class="modal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div id="weather-modal-content" class="modal-content">
+                    <div id="weather-modal-header" class="modal-header">
+                    <h5 class="modal-title">Forecast for <span class="capital"></span></h5>
+                    </div>
+                    <div id="weather-modal-body" class="modal-body">
+                        <div id="current-weather-container">
+                        <div id="current-weather-day"><h6>Today</h6></div>
+                        <div id="current-icon-weather-container"><img id="weather-icon" src="" alt=""></div>
+                        <div id="current-weather-data-container"><p id="weather-desc"></p><p id="temperature"></p><p><strong>Feels Like&copy;</strong>&nbsp;<span id="feels-like"></span></p></div>
                         </div>
-                        <div class="modal-body">
-                        <table class="modal-table">
-                            <tr><td class="modal-td">COVID-19 Data for <span class="covid-data-date"></span></td></tr>
-                            <tr><td class="modal-td">Total Infections<td><td class="modal-td">Total Deaths</td></tr>
-                            <tr><td class="modal-td"><span class="total-infections"></span><td><td class="modal-td"><span class="total-deaths"></span></td></tr>
-                        </table>
+                        <div id="three-day-forecast-container">
+                            <div class="upcoming-forcast-container" id="day-one">
+                                <h6 class="three-day-forecast-heading" id="day-one-day"></h6>
+                                <img id="day-one-icon" src="" alt="">
+                                <p class="three-day-temp" id="day-one-temp"></p>
+                                <p class="three-day-desc" id="day-one-desc"></p>
+                            </div>
+                            <div class="upcoming-forcast-container" id="day-two">
+                                <h6 class="three-day-forecast-heading" id="day-two-day"></h6>
+                                <img id="day-two-icon" src="" alt="">
+                                <p class="three-day-temp" id="day-two-temp"></p>
+                                <p class="three-day-desc" id="day-two-desc"></p>
+                            </div>
+                            <div class="upcoming-forcast-container" id="day-three">
+                                <h6 class="three-day-forecast-heading" id="day-three-day"></h6>
+                                <img id="day-three-icon" src="" alt="">
+                                <p class="three-day-temp" id="day-three-temp"></p>
+                                <p class="three-day-desc" id="day-three-desc"></p>
+                            </div>
+                        </div>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>       
+                        </div>
+                </div>
+                </div>
+            </div>
+            <!--Model End-->
+            <!-- Modal -->
+            <div id="exchange-modal" class="modal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div id="exchange-modal-content" class="modal-content">
+                    <div id="exchange-modal-header" class="modal-header">
+                    <h5 class="modal-title">Current Rates - <span class="currency-name"></span></h5>
+                    </div>
+                    <div class="modal-body">
+                        <div id="exchange-modal-body">
+                            <div class="exchange"><p><span class="currency-symbol">$</span><span class="currency-digit">1</span></p></div><div class="exchange"><p><span class="currency-symbol" id="current-symbol"></span><span class="currency-digit" id="current-digit"></span></p></div>
+                        </div> 
                         </div>
                         <div class="modal-footer">
-                        </div>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>       
+                            </div>
                     </div>
-                    </div>
+                    
                 </div>
-                <div id="weather-modal" class="modal" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <h5 class="modal-title">Weather</h5>
-                        </button>
-                        </div>
-                        <div class="model-body">
-                        <table class="modal-table">
-                        <tr><td class="weather-city" class="modal-td"></td></tr>
-                        <tr><td class="modal-td"><img class="weather-icon" src=""></td><td class="weather-description" class="modal-td"></td><td class="temperature" class="modal-td"></td></tr>
-                        </table>
-                        </div>
-                        </div>
-                        <div class="modal-footer">
-                        </div>
-                    </div>
-                    </div>
-                <div id="exchange-modal" class="modal" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <h5 class="modal-title">Live Exchange Rate</h5>
-                        </button>
-                        </div>
-                        <div class="modal-body" style=>
-                        <table class="modal-table">
-                            <tr><td class="modal-td">Currency</td><td class="currency"></td></tr>
-                            <tr><td class="modal-td">1 USD</td><td><span class="exchange-rate" class="modal-td"></span>&nbsp;<span class="currency" class="modal-td"></span></td></tr>
-                        </table>
-                        </div>
-                        <div class="modal-footer">
-                        </div>
-                    </div>
-                    </div>
                 </div>
+            </div>
+            <!--Model End-->
+                <!-- Modal -->
+            <div id="countryinformation-modal" class="modal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div id="information-modal-content" class="modal-content">
+                    <div id="information-modal-header" class="modal-header">
+                    <h5 class="countryName" class="modal-title"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <table id="information-table">
+                            <tr class="information-tr"><td>Capital City:</td><td class="capital"></td></tr>
+                            <tr class="information-tr"><td>Population:</td><td id="population"></td></tr>
+                            <tr class="information-tr"><td>Wikipedia:</td><td><a id="wikipedia-link" href="" target="_blank"></a></td></tr>
+                            <tr class="information-tr"><td>Public Holiday:</td><td id="public-holiday"></td></tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>       
+                        </div>
+                </div>
+                </div>
+            </div>
+            <!--Model End-->
     
         
         <script src="javascript/jquery.js"></script>
         <script src="select2/select2.min.js"></script>
         <script src="javascript/leaflet.js"></script>
+        <script src="javascript/leaflet.extra-markers.min.js"></script>
         <script src="javascript/easy-button.js"></script>
         <script src="javascript/leaflet.markercluster.js"></script>
         <script src="JavaScript/customscripts.js"></script>
         <script src="javascript/bootstrap.min.js"></script>
+        <script src="https://kit.fontawesome.com/5dd4ce85ea.js" crossorigin="anonymous"></script>
+        
+        
         
        
     </body>

@@ -35,7 +35,7 @@
     font-feature-settings: 'liga';
   }
 
-@media screen and (max-width: 930px) {
+  @media screen and (max-width: 929px) {
     #country_info, #flag-container {
         display: none;
     }
@@ -44,9 +44,33 @@
         display: block;
     }
 
-    td {
-        max-width: 130px;
+    #three-day-forecast-container{
+        flex-direction: column;
+        flex-wrap: wrap;
     }
+
+    /*#covid-modal-header > h5,#covid-modal-header > h6 {
+        
+        font-size: 100%;
+    }*/
+
+  }
+
+@media screen and (max-width: 374px) {
+    #country_info, #flag-container {
+        display: none;
+    }
+
+    #viewport-930, #offcanvasBottom, #viewport-930-div-2 {
+        display: block;
+    }
+
+    #covid-modal-header > h5, #covid-modal-header > h6, #exchange-modal-header > h5 {
+        
+        font-size: 80%;
+    }
+
+    
 
   }
 
@@ -65,42 +89,173 @@
 
   }
 
-.weather-icon {
-    height: 100px;
-    width: 100px;
+
+#weather-icon {
+    height: auto;
+    width: 100%;
+    max-width: 200px;
 }
 
 .flag {
     text-align: center;
 }
 
-td {
-    white-space: nowrap;
-    padding: 0px;
-    text-align: left;
-    
+#covid-modal-content {
+    background-color: rgb(255, 196, 196);
 }
 
-.modal-header, .modal-body {
+#covid-modal-header {
+    background-color: white; margin: 10px;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
-.modal-td {
-    text-align: center;
+.covid-tr:nth-child(1){
+    background-color: white;
 }
 
-.modal-table {
+.covid-tr:nth-child(2){
+    background-color: rgb(252, 220, 220);
+}
+
+.covid-tr {
+    border-radius: 3px;
+    padding: 10px;
+    display: flex; 
+    justify-content: space-between;
+}
+
+#covid-table {
     width: 100%;
 }
 
-.title {
-    text-align: left;
+#weather-modal-header {
+    background-color: white; 
+    margin: 10px;
+    justify-content: center;
 }
 
-tbody {
-    position: relative;
+#weather-modal-content {
+    background-image: url(../images/bluesky.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
+#weather-model-body {
+    display: flex;
+    justify-content: center;
+}
+
+#current-weather-container {
+    display: flex;
+    background-color: white;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+#three-day-forecast-container {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.upcoming-forcast-container {
+    height: auto;
+    width: auto;
+    max-height: 175px;
+    max-width: 175px;
+    background-color: white;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.three-day-forecast-heading {
+    text-align: center;
+}
+
+.three-day-temp{
+    display:inline-block;
+    width: auto;
+    margin-right: 6px;
+}
+
+.three-day-desc {
+    text-align: center;
+}
+
+#exchange-modal-content {
+    background-image: url(../images/currency.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#exchange-modal-header {
+    background-color: white; 
+    margin: 10px;
+    justify-content: center;
+}
+
+#exchange-modal-body {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+
+.currency-symbol {
+    font-weight: bolder;
+    font-size: 200%;
+}
+
+.currency-digit {
+    font-weight: bolder;
+    font-size: 300%
+}
+
+.exchange {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    height: auto;
+    width: auto;
+    margin: 10px;
+    border-radius: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#information-modal-content {
+    background-image: url(../images/world-map.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#information-modal-header {
+    background-color: white; 
+    margin: 10px;
+    justify-content: center;
+}
+
+#information-table {
+    background-color: white;
+    width: 100%;
+}
+
+.information-tr {
+    border-radius: 3px;
+    padding: 10px;
+    display: flex; 
+    justify-content: space-between;
+}
+
+.information-tr:nth-child(odd){
+    background-color: lightgray;
+}
 
 #viewport-930, #offcanvasBottom, #viewport-930-div-2 {
     z-index: 2;
@@ -113,7 +268,7 @@ tbody {
 }
 
 #offcanvasBottom {
-    opacity: 100%;
+    opacity: 100%; 
 }
 
 
@@ -161,21 +316,11 @@ html, body, .container-fluid, #map, #map-container {
     opacity: 70%;
   }
 
-  #flag-container {
+  #countryflag {
       z-index: 1;
-      width: 150px;
+      width: 200px;
       height: auto;
-      
-
-  }
-
-  #flag-container img {
-      width: 100%;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      
-  }
+    }
 
   #loader {
     position: absolute;
