@@ -14,7 +14,9 @@
     $country_iso_2 = $feature->properties->iso_a2;
     $array = [$country_name, $country_iso_a3, $country_iso_2];
     array_push($countries, $array);
+    
 }
+    sort($countries);
 
 print_r(json_encode($countries));
     

@@ -48,8 +48,6 @@ function getPOI(iso2) {
     }
 
     iso2 = iso2.toLowerCase();
-    
-    console.log(iso2);
 
     $.ajax({
         type: "POST",
@@ -87,7 +85,6 @@ function getCurrentExchange(currency){
         },
         success: function(data){
             
-            console.log(data);
             $('#current-digit').html(data.data.rates[currency].toFixed(3));
         }
     })
@@ -197,8 +194,6 @@ function getWeather(lat, lng){
             lng: lng
         },
         success: function(result) {
-
-            console.log(result);
 
             function addTrailingZeros(returnedMilliTime) {
                 let stringTime = returnedMilliTime.toString();
@@ -430,7 +425,6 @@ function getUserLocation() {
     
                     if (result.status.name == "ok") {
                     
-                        console.log(result);
                         countryCode = result.data.results[0].components["ISO_3166-1_alpha-3"];
                         let iso2 = result.data.results[0].components["ISO_3166-1_alpha-2"];
                         let userCountry = result.data.results[0].components["country"];
