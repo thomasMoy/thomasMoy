@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 $executionStartTime = microtime(true);
 
-$url = 'https://www.triposo.com/api/20220104/location.json?countrycode=' . $_REQUEST['iso2'] . '&tag_labels=city&count=100&account=HPKWJO7F&token=pk3gr9xvvy3g6fvvb7rq45gw4o5f35ba';
+$url = 'https://www.triposo.com/api/20220104/location.json?countrycode=' . $_REQUEST['iso2'] . '&tag_labels=city&count=50&account=HPKWJO7F&token=pk3gr9xvvy3g6fvvb7rq45gw4o5f35ba';
 
 
 $ch = curl_init();

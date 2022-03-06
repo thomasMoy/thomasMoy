@@ -35,69 +35,41 @@
     font-feature-settings: 'liga';
   }
 
-  @media screen and (max-width: 929px) {
-    #country_info, #flag-container {
-        display: none;
-    }
-
-    #viewport-930, #offcanvasBottom, #viewport-930-div-2 {
-        display: block;
-    }
-
-    #three-day-forecast-container{
+  /* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    #three-day-forecast-container {
         flex-direction: column;
         flex-wrap: wrap;
     }
 
-    /*#covid-modal-header > h5,#covid-modal-header > h6 {
-        
-        font-size: 100%;
-    }*/
-
-  }
-
-@media screen and (max-width: 374px) {
-    #country_info, #flag-container {
-        display: none;
+    h5 {
+        font-size: .9rem;
     }
-
-    #viewport-930, #offcanvasBottom, #viewport-930-div-2 {
-        display: block;
-    }
-
-    #covid-modal-header > h5, #covid-modal-header > h6, #exchange-modal-header > h5 {
-        
-        font-size: 80%;
-    }
-
     
+}
 
-  }
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    
+    
+}
 
-@media screen and (min-width: 930px) {
-    #viewport-930, #viewport-930-div-1, #viewport-930-div-2 {
-        display: none;
-    }
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
 
-    #country_info, #flag-container {
-        display: block;
-    }
+}
 
-    td {
-        max-width: 150px;
-    }
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {}
 
-  }
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {}
 
 
 #weather-icon {
     height: auto;
     width: 100%;
     max-width: 200px;
-}
-
-.flag {
-    text-align: center;
 }
 
 #covid-modal-content {

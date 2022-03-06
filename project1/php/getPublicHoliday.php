@@ -5,7 +5,7 @@
 
 	$executionStartTime = microtime(true);
 
-	$url='https://holidays.abstractapi.com/v1/?api_key=53934307bec9433d8a789a24feea7af8&country=' . $_REQUEST['countryCode'] . '&year=' . $_REQUEST['year'] . '&month=' . $_REQUEST['month'] . '&day=' . $_REQUEST['day'];
+	$url='https://holidays.abstractapi.com/v1/?api_key=7c0d5722ddea482e9514466208c6c0ad&country=' . $_REQUEST['countryCode'] . '&year=' . $_REQUEST['year'] . '&month=' . $_REQUEST['month'] . '&day=' . $_REQUEST['day'];
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
