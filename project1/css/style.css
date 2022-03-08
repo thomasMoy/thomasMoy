@@ -229,6 +229,58 @@
     background-color: lightgray;
 }
 
+#news-modal-content {
+    background-image: url(../images/collection-newspapers.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#news-modal-header {
+    background-color: white; 
+    margin: 10px;
+    justify-content: center;
+}
+
+.article-container {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid grey;
+    height: auto
+    /*height: 100px;*/
+}
+
+#news-modal-body {
+    display: flex;
+    justify-content: space-around !important;
+    flex-wrap: wrap;
+}
+
+#news-title, #news-content, #news-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#news-title, #news-content {
+    margin: 10px;
+    text-align: center;
+}
+
+#p-news-image {
+    height: 150px;
+    width: auto;
+}
+
+.card {
+    margin: 0 !important;
+}
+
+#p-news-link {
+    margin: 10px;
+}
+
 #viewport-930, #offcanvasBottom, #viewport-930-div-2 {
     z-index: 2;
 }

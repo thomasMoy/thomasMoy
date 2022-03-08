@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $('#select-country').select2();
+
         });
 
 $(window).on("load", function(){
@@ -38,7 +39,66 @@ var redMarker = L.ExtraMarkers.icon({
     prefix: 'fa'
   });
 
+var camMarker = L.ExtraMarkers.icon({
+    icon: 'fa-video',
+    markerColor: 'blue',
+    shape: 'square',
+    prefix: 'fa'
+  });
+
 let poi = new L.MarkerClusterGroup();
+let webcams = new L.MarkerClusterGroup();
+
+function getNews(iso2){
+    $.ajax({
+        type: "POST",
+        url: "php/getNews.php",
+        dataType: "json",
+        data: {
+            iso2: iso2
+        },
+        success: function(data) {
+            console.log(data);
+        
+        let newsCardBody = document.getElementById('news-modal-body');
+            
+            while (newsCardBody.firstChild) {
+                newsCardBody.removeChild(newsCardBody.firstChild);
+            }
+
+        
+        let resultArray = data.data.articles;
+            
+        for (let i=0; i<resultArray.length; i++) {
+
+            let image = resultArray[i].urlToImage;
+
+            if (image) {
+                image = image;
+            } else {
+                image = "images/RE4qVtM.jpg"
+            }
+
+            $('#news-modal-body').append(`
+
+            <div class="card" style="width: 20rem; margin:0rem !important">
+            <img src=${image} class="card-img-top" alt="">
+            <div class="card-body">
+              <h5 class="card-title">${resultArray[i].title}</h5>
+              <p class="card-text">${resultArray[i].content}</p>
+              <a href=${resultArray[i].url} class="btn btn-primary" target="_blank">Read more</a>
+            </div>
+          </div>
+
+            `)
+        }    
+            
+        
+
+        
+        }
+    });
+}
 
 function getPOI(iso2) {
 
@@ -71,6 +131,36 @@ function getPOI(iso2) {
                 ));
             }
             map.addLayer(poi);
+        }
+    })
+}
+
+function getwebCams(iso2) {
+    $.ajax({
+        type: "POST",
+        url: "php/getwebCams.php",
+        dataType: "json",
+        data: {
+            iso2: iso2
+        },
+        success: function(data) {
+            
+
+            let webCamLink = data.data.result.webcams;
+            console.log(webCamLink);
+
+            for (i=0; i<webCamLink.length; i++) {
+                let lat = webCamLink[i].location.latitude;
+                let lng = webCamLink[i].location.longitude;
+                webcams.addLayer(L.marker([lat, lng], {icon: camMarker}).bindPopup(
+                    `
+                    <h5>${webCamLink[i].title}</h5>
+                    <iframe src=${webCamLink[i].player.day.embed}></iframe>
+                    
+                    `
+                ));
+            }
+            map.addLayer(webcams);
         }
     })
 }
@@ -156,6 +246,16 @@ function getWiki(north, east, south, west){
 
 
 function getBorder(countryCode){
+
+    function boundryColor() {
+        return {
+          fillColor: "green",
+          weight: 1,
+          opacity: 0.1,
+          color: "white",
+          fillOpacity: 0.6,
+        };
+      }
     $.ajax({
         type: "GET",
         url: "php/getBorders.php",
@@ -166,7 +266,7 @@ function getBorder(countryCode){
         success: function(data) {
 
             country_boundary.clearLayers();
-            country_boundary.addData(data);
+            country_boundary.addData(data).setStyle(boundryColor());
             const bounds = country_boundary.getBounds();
             map.fitBounds(bounds);
             let mapEast = bounds.getEast();
@@ -324,6 +424,8 @@ function getCountryInfo(countryCode) {
             isPublicHoliday(iso2);
             getCurrentExchange(currency);
             getPOI(iso2);
+            getNews(iso2);
+            getwebCams(iso2);
             
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -377,6 +479,10 @@ function getCovid(countryCode) {
     });
 }
 
+let countryInfoButton =  L.easyButton( '<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">info</i>', function(){
+    $('#countryinformation-modal').modal('show');
+  });
+
 let covidButton = L.easyButton('<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">coronavirus</i>', function(){
     $('#covid-modal').modal('show');
   });
@@ -388,21 +494,23 @@ let weatherButton = L.easyButton( '<i class="material-icons" style="font-size:18
 let exchangeButton = L.easyButton( '<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">currency_exchange</i>', function(){
     $('#exchange-modal').modal('show');
   });
-    
-let countryInfoButton =  L.easyButton( '<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">info</i>', function(){
-    $('#countryinformation-modal').modal('show');
+
+let newsButton = L.easyButton( '<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">newspaper</i>', function(){
+    $('#news-modal').modal('show');
   });
-
-  weatherButton.button.style.backgroundColor = 'yellow';
-  covidButton.button.style.backgroundColor = 'red';
-  exchangeButton.button.style.backgroundColor = 'green';
-  countryInfoButton.button.style.backgroundColor = 'blue';
-
-let easyButtons = [covidButton, weatherButton, exchangeButton, countryInfoButton];
+    
 
 
-L.easyBar(easyButtons).addTo(map);
 
+//let easyButtons = [covidButton, weatherButton, exchangeButton, countryInfoButton];
+
+
+/*L.easyBar(easyButtons).addTo(map);*/
+countryInfoButton.addTo(map);
+covidButton.addTo(map);
+weatherButton.addTo(map);
+exchangeButton.addTo(map);
+newsButton.addTo(map);
 
 /**Prompting user to accept use of their location */
 function getUserLocation() {
