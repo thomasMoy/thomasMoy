@@ -7,7 +7,7 @@ $(window).on("load", function(){
     spin(); 
     getUserLocation(); 
     populateCountriesList(); 
-    getCovid();
+    
 })
 let worldStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -58,7 +58,6 @@ function getNews(iso2){
             iso2: iso2
         },
         success: function(data) {
-            console.log(data);
         
         let newsCardBody = document.getElementById('news-modal-body');
             
@@ -80,7 +79,6 @@ function getNews(iso2){
             }
 
             $('#news-modal-body').append(`
-
             <div class="card" style="width: 20rem; margin:0rem !important">
             <img src=${image} class="card-img-top" alt="">
             <div class="card-body">
@@ -89,13 +87,15 @@ function getNews(iso2){
               <a href=${resultArray[i].url} class="btn btn-primary" target="_blank">Read more</a>
             </div>
           </div>
-
             `)
         }    
             
         
 
         
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert(errorThrown + ' ' + jqXHR + ' ' + textStatus);
         }
     });
 }
@@ -117,7 +117,7 @@ function getPOI(iso2) {
             iso2: iso2
         },
         success: function(data) {
-            console.log(data);
+            
 
             poi.clearLayers();
 
@@ -131,6 +131,9 @@ function getPOI(iso2) {
                 ));
             }
             map.addLayer(poi);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert(errorThrown + ' ' + jqXHR + ' ' + textStatus);
         }
     })
 }
@@ -147,7 +150,7 @@ function getwebCams(iso2) {
             
 
             let webCamLink = data.data.result.webcams;
-            console.log(webCamLink);
+
 
             for (i=0; i<webCamLink.length; i++) {
                 let lat = webCamLink[i].location.latitude;
@@ -161,6 +164,9 @@ function getwebCams(iso2) {
                 ));
             }
             map.addLayer(webcams);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert(errorThrown + ' ' + jqXHR + ' ' + textStatus);
         }
     })
 }
@@ -176,6 +182,9 @@ function getCurrentExchange(currency){
         success: function(data){
             
             $('#current-digit').html(data.data.rates[currency].toFixed(3));
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert(errorThrown + ' ' + jqXHR + ' ' + textStatus);
         }
     })
 }
@@ -204,6 +213,9 @@ function isPublicHoliday(countryCode) {
             } else {
                 $("#public-holiday").html(data.data[0].name);
             }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert(errorThrown + ' ' + jqXHR + ' ' + textStatus);
         }
     })
 }
@@ -237,8 +249,12 @@ function getWiki(north, east, south, west){
                 data.data[i].wikipediaUrl +
                 "' target='_blank'>Wikipedia Link</a>"));
             }
+            
             map.addLayer(wikipedia);
 
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert(errorThrown + ' ' + jqXHR + ' ' + textStatus);
         }
     })
 
@@ -306,48 +322,11 @@ function getWeather(lat, lng){
             let ForecastDayTwo = addTrailingZeros(result.data.daily[2].dt);
             let ForecastDayThree = addTrailingZeros(result.data.daily[3].dt);
 
+            let dayOne = new Date(ForecastDayOne).toString('dddd, MMMM dd');
+            let dayTwo = new Date(ForecastDayTwo).toString('dddd, MMMM dd');
+            let dayThree = new Date(ForecastDayThree).toString('dddd, MMMM dd');
 
-            
-            function getDay(millitime) {
-            let date = new Date(millitime);
-            let day;
-            switch (date.getDay()) {
-
-                case 0:
-                    day = "Sunday";
-                break;
-
-                case 1:
-                    day = "Monday";
-                break;
-
-                case 2:
-                    day = "Tuesday";
-                break;
-
-                case 3:
-                    day = "Wednesday";
-                break;
-
-                case 4:
-                    day = "Thursday";
-                break;
-
-                case 5:
-                    day = "Friday";
-                break;
-
-                case 6:
-                    day = "Saturday";
-                break;
-
-                }
-                   return day; 
-                }
-
-                let dayOne = getDay(ForecastDayOne);
-                let dayTwo = getDay(ForecastDayTwo);
-                let dayThree = getDay(ForecastDayThree);
+                
         
                 $('#weather-icon').attr("src", 'https://openweathermap.org/img/wn/' + result.data.current.weather[0].icon + '@2x.png')
                 $('#weather-desc').html(result.data.current.weather[0].description.toUpperCase());
@@ -371,19 +350,13 @@ function getWeather(lat, lng){
 
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            // your error code
+            alert(errorThrown + ' ' + jqXHR + ' ' + textStatus);
         },
 
         
     }); 
 }
 
-
-/**Populate list for user to select country */
-
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
 
 
 
@@ -406,7 +379,7 @@ function getCountryInfo(countryCode) {
             $('.countryName').html(result[0].name.common);
             $('#country-name-small-screen').html(result[0].name.common);
             $('.capital').html(result[0].capital);
-            $('#population').html(numberWithCommas(result[0].population));
+            $('#population').html(result[0].population);
             $('.currency').html(currency);
             $('.currency-code').html(currency);
             $('#countryFlag').attr("src",result[0].flags.png);
@@ -435,23 +408,10 @@ function getCountryInfo(countryCode) {
 }
 
 function getCovid(countryCode) {
-    let newStartDate = new Date();
-    let newEndDate = new Date();
-    let endDateMilli = newEndDate.setDate(newEndDate.getDate() - 2);
-    let startDateMilli = newStartDate.setDate(newStartDate.getDate() - 3);
     
-    function convertDate(dateInMilli){
-        var date = new Date(dateInMilli); // Date 2011-05-09T06:08:45.178Z
-        var year = date.getFullYear();
-        var month = ("0" + (date.getMonth() + 1)).slice(-2);
-        var day = ("0" + date.getDate()).slice(-2);
-        
-        return `${year}-${month}-${day}`;
+    let startDate = Date.today().addDays(-3).toString("yyyy-MM-dd");
+    let endDate = Date.today().addDays(-2).toString("yyyy-MM-dd");
 
-    }
-
-    let startDate = convertDate(startDateMilli);
-    let endDate = convertDate(endDateMilli);
 
     $.ajax({
         type: "POST",
@@ -460,16 +420,18 @@ function getCovid(countryCode) {
         data: {
             start_Date: startDate,
             end_Date: endDate,
+            countryCode: countryCode
         },
         success: function(data) {
+            let covidInfo = data.data.data[startDate][countryCode];
+            
+            let infections = covidInfo.confirmed;
+            let deaths = data.data.data[startDate][countryCode].deaths;
+            
 
-            let infections = data.data[startDate][countryCode]['confirmed'];
-            let deaths = data.data[startDate][countryCode]['deaths'];
-            var date = new Date(startDate);
-
-            $('.total-infections').html(numberWithCommas(infections));
-            $('.total-deaths').html(numberWithCommas(deaths));
-            $('.covid-data-date').html(date.toDateString());
+            $('.total-infections').html(infections);
+            $('.total-deaths').html(deaths);
+            $('.covid-data-date').html(new Date().addDays(-3).toString('dddd, MMMM dd'));
             
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -481,31 +443,27 @@ function getCovid(countryCode) {
 
 let countryInfoButton =  L.easyButton( '<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">info</i>', function(){
     $('#countryinformation-modal').modal('show');
-  });
+  }, 'Country Information');
 
 let covidButton = L.easyButton('<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">coronavirus</i>', function(){
     $('#covid-modal').modal('show');
-  });
+  }, 'Covid-19 Figures');
 
 let weatherButton = L.easyButton( '<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">thermostat</i>', function(){
     $('#weather-modal').modal('show');
-  });
+  }, 'Weather Forecast');
 
 let exchangeButton = L.easyButton( '<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">currency_exchange</i>', function(){
     $('#exchange-modal').modal('show');
-  });
+  }, 'Exchange Rates');
 
 let newsButton = L.easyButton( '<i class="material-icons" style="font-size:18px; padding-bottom: 3px; display: inline-flex; vertical-align: middle;">newspaper</i>', function(){
     $('#news-modal').modal('show');
-  });
+  }, 'Latest News');
     
 
 
 
-//let easyButtons = [covidButton, weatherButton, exchangeButton, countryInfoButton];
-
-
-/*L.easyBar(easyButtons).addTo(map);*/
 countryInfoButton.addTo(map);
 covidButton.addTo(map);
 weatherButton.addTo(map);
@@ -545,7 +503,7 @@ function getUserLocation() {
                 
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    // your error code
+                    alert(errorThrown + ' ' + jqXHR + ' ' + textStatus);
                 } 
                 
             });
