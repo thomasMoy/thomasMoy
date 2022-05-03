@@ -7,16 +7,16 @@
           <link rel="stylesheet" type="text/css" href="css/style.css">
           <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css">
           <link rel="shortcut icon" href="#">
-          
-
-
-
-
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link rel="apple-touch-icon" sizes="180x180" href="imgs/favicon/apple-touch-icon.png">
+          <link rel="icon" type="image/png" sizes="32x32" href="imgs/favicon/favicon-32x32.png">
+          <link rel="icon" type="image/png" sizes="16x16" href="imgs/favicon/favicon-16x16.png">
+          <link rel="manifest" href="imgs/favicon/site.webmanifest">
       </head>
 
       <body>
-          <div class="container-fluid">
+        <div id="loader"></div>
+          <div class="container-fluid" id="container">
             <!--Tab menu-->
             <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
               <li class="nav-item" role="presentation">
@@ -33,9 +33,9 @@
             <div class="tab-content" id="pills-tabContent">
               <!--Employee content start-->
               <div class="tab-pane fade show active" id="pills-employee" role="tabpanel" aria-labelledby="pills-employee-tab">
-                <div class="header-container">
+                
                   <div id="employee-head-container">
-                      <div class="input-group" style="display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;">
+                      <div id="search-box-container" class="input-group">
                           <button type="button" id="quit-search-button" class="btn btn-primary">
                             <i class="fa-solid fa-xmark fa-xl"></i>
                           </button>
@@ -47,14 +47,14 @@
                         <!--add, filter, remove filter buttons-->
                       <div id="wide-employee-button-container">
                       <button type="button" class="btn btn-primary" title="Add New Employee" data-bs-toggle="modal" data-bs-target="#addEmployeeModal"><i class="fa-solid fa-user-plus fa-xl"></i></button>
-                      <button type="button" class="btn btn-primary" title="Refresh"><i class="fa-solid fa-rotate fa-xl"></i></button>
+                    
                       </div>
                       
                       <!--add, filter, remove filter buttons-->
                   </div>
                   
                   <hr>
-              </div>
+              
               
               <div id="employee-results">
                 
@@ -85,9 +85,9 @@
               </div>
               
                 <div id="department-results">
-                  <div id="department-results-accordion" class="accordion">
+                  <!--<div id="department-results-accordion" class="accordion">
                     
-                </div>
+                </div>-->
                 
               </div>
               <div class="mobile-container">
@@ -118,9 +118,9 @@
                   
               </div>
                 
-                  <div class="location-results">
-                    <div class="accordion" id="location-results-accordion">
-                      <!--<div class="accordion-item">
+                  <div id="location-results">
+                    <!--<div class="accordion" id="location-results-accordion">
+                      <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
                           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                             New York
@@ -140,8 +140,8 @@
                             </div>
                           </div>
                         </div>
-                      </div>-->
-                    </div>
+                      </div>
+                    </div>-->
                   </div>
                   <div class="mobile-container">
                     <div id="mobile-location-button-container">
@@ -151,9 +151,10 @@
                     </div>
 
               </div>
-              </div>
-              <!--Location content end-->
             </div>
+              <!--Location content end-->
+        </div>
+          
             <!--Tab menu-->
             
     </body>           
@@ -170,11 +171,14 @@
                   <form id="addEmployeeForm">
                   <div class="modal-body">
                     <div class="names">
-                      <input type="text" class="form-control" style="width: 48% !important;" id="newFirstName" name="newFirstName" placeholder="First Name..." required>
-                      <input type="text" class="form-control" style="width: 48% !important;" id="newLastName" name="newLastName" placeholder="Last Name..." required>
+                      <input type="text" class="form-control"  id="newFirstName" name="newFirstName" placeholder="First Name..." required>
+                      <input type="text" class="form-control"  id="newLastName" name="newLastName" placeholder="Last Name..." required>
                     </div>
                     <div class="names">
                       <input type="email" class="form-control" id="newEmail" name="email" placeholder="E-mail" required>
+                    </div>
+                    <div class="names">
+                    <input type="text" class="form-control" id="newJobTitle" name="JobTitle" placeholder="Job Title" required>
                     </div>
                     <div id="location-dept">
                     <select id="add-employee-dept-list" class="form-select" aria-label="Default select example" name="newDepartment" required>
@@ -184,12 +188,7 @@
                   </div>
                   <div id="add-employee-modal-footer" class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" id="add-employee-step-one-button" onclick="addEmployee()" class="btn btn-primary">Add</button>
-                  </div>
-                  <div id="add-employee-confirmation-modal-footer" class="modal-footer">
-                    <p id="employeeToAdd"></p>
-                    <button id="add-employee-go-back-button" type="button" class="btn btn-danger" >Go Back</button>
-                    <button id="add-employee-proceed-button" class="btn btn-success">Proceed</button>
+                    <button type="submit" id="add-employee-step-one-button" class="btn btn-primary">Add</button>
                   </div>
                 </form>
                 </div>
@@ -217,12 +216,7 @@
                   </div>
                   <div id="add-department-modal-footer" class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="add-department-step-one-button" type="button" class="btn btn-primary">Add</button>
-                  </div>
-                  <div id="add-department-confirmation-modal-footer" class="modal-footer">
-                    <p id="departmentToAdd"></p>
-                    <button id="add-department-go-back-button" type="button" class="btn btn-danger" >Go Back</button>
-                    <button type="submit" onclick="addDept()" class="btn btn-success">Save</button>
+                    <button type="submit" id="add-department-step-one-button" type="button" class="btn btn-primary">Add</button>
                   </div>
                 </form>
                 </div>
@@ -244,12 +238,7 @@
                   </div>
                   <div id="add-location-modal-footer" class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="add-location-step-one-button" type="button" class="btn btn-primary">Add</button>
-                  </div>
-                  <div id="add-location-confirmation-modal-footer" class="modal-footer">
-                    <p>Are you sure you wish to add <span id="locationToAdd"></span> ?</p>
-                    <button id="add-location-go-back-button" type="button" class="btn btn-danger" >Go Back</button>
-                    <button type="submit" onclick="addLocation()" class="btn btn-success">Save</button>
+                    <button type="submit" id="add-location-step-one-button" type="button" class="btn btn-primary">Add</button>
                   </div>
                 </form>
                 </div>
@@ -285,15 +274,10 @@
                   </div>
                   <div id="edit-department-modal-footer" class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="edit-department-step-one-button" type="button" class="btn btn-primary">Save</button>
-                  </div>
-                  <div id="edit-department-confirmation-modal-footer" class="modal-footer">
-                    <p id="departmentToEdit"></p>
-                    <button id="edit-department-go-back-button" type="button" class="btn btn-danger" >Go Back</button>
-                    <button type="submit" onclick="editDepartment()" class="btn btn-success">Proceed</button>
+                    <button id="edit-department-step-one-button" type="submit" class="btn btn-primary">Update</button>
                   </div>
                   <div id="delete-department-confirmation-modal-footer" class="modal-footer">
-                    <p id="departmentToEdit"></p>
+                    <p id="departmentToDelete"></p>
                     <button id="delete-department-go-back-button" type="button" class="btn btn-danger" >Go Back</button>
                     <button id="delete-department-proceed-button" type="button" class="btn btn-success">Proceed</button>
                   </div>
@@ -317,26 +301,19 @@
                   
                   <form id="edit-location-form">
                   <div class="modal-body">
-                    
                     <p>Select a location to edit..</p>
-                    <br>
-                    <select id="edit-location-list" class="form-select" aria-label="Default select example" name="location" required>
-                      
-                    </select>
+                  <br>
+                  <select id="edit-location-list" class="form-select" aria-label="Default select example" name="location" required>
+                    
+                  </select>
                     <div id="edit-location-options">
                     <input type="text" class="form-control" name="updatedLocation" id="updatedLocation" placeholder="Update location name...">
                     <button id="delete-location-button" type="button" class="btn btn-danger">Delete Location</button>
                   </div>
                   </div>
                   <div id="edit-location-modal-footer" class="modal-footer">
-                    <!---->
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button id="edit-location-step-one-button" type="button" class="btn btn-primary">Update</button>
-                  </div>
-                  <div id="edit-location-confirmation-modal-footer" class="modal-footer">
-                    <p id="locationToEdit"></p>
-                    <button id="update-location-go-back-button" type="button" class="btn btn-danger">Go Back</button>
-                    <button id="update-location-proceed-button" type="button" class="btn btn-success">Proceed</button>
+                    <button type="submit" id="edit-location-step-one-button" class="btn btn-primary">Update</button>
                   </div>
                   <div id="delete-location-confirmation-modal-footer" class="modal-footer">
                     <p id="locationToDelete"></p>
@@ -364,12 +341,15 @@
                   <form id="editEmployeeForm">
                   <div class="modal-body">
                     <div class="names">
-                      <input class="form-control" style="width: 15% !important;" type="text" placeholder="Readonly input here…" id="editemployeeid" readonly>
-                      <input type="text" class="form-control" style="width: 42% !important;" name="firstName" id="editemployeefirstname" required>
-                      <input type="text" class="form-control" style="width: 42% !important;" name="lastName" id="editemployeelastname" required>
+                      <input class="form-control" type="text" placeholder="Readonly input here…" id="editemployeeid" readonly>
+                      <input type="text" class="form-control" name="firstName" id="editemployeefirstname" required>
+                      <input type="text" class="form-control" name="lastName" id="editemployeelastname" required>
                     </div>
                     <div class="names">
                       <input type="email" class="form-control" name="email" id="editemployeeemail" required>
+                    </div>
+                    <div class="names">
+                    <input type="text" class="form-control" id="editJobTitle" name="JobTitle" required>
                     </div>
                     <div id="location-dept">
                     <select id="edit-employee-dept-list" class="form-select" aria-label="Default select example" name="department" required>
@@ -380,12 +360,7 @@
                   <div id="edit-employee-modal-footer" class="modal-footer">
                     <button id="delete-employee-step-one-button" type="button" class="btn btn-danger">Delete Employee</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="edit-employee-step-one-button" type="button" class="btn btn-primary">Edit</button>
-                  </div>
-                  <div id="edit-employee-confirmation-modal-footer" class="modal-footer">
-                    <p id="employeeToEdit"></p>
-                    <button id="edit-employee-go-back-button" type="button" class="btn btn-danger" >Go Back</button>
-                    <button id="edit-employee-proceed-button" type="button" class="btn btn-success">Update</button>
+                    <button id="edit-employee-proceed-button" type="button" class="btn btn-primary">Update</button>
                   </div>
                   <div id="delete-employee-confirmation-modal-footer" class="modal-footer">
                     <p id="employeeToDelete"></p>
@@ -422,8 +397,10 @@
       <script src="js/bootstrap/bootstrap.js"></script>
       <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
       <script src="js/script.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-      <script src="https://kit.fontawesome.com/5dd4ce85ea.js" crossorigin="anonymous"></script>
+      <script src="js/popper/popper.min.js"></script>
+      
+      <!--Fontawesome-->
+      <script src="js/fontawesome/5dd4ce85ea.js"></script>
       
 
 
