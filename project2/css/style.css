@@ -191,7 +191,8 @@ p {
 
 .mobile-container {
     /*display: block;*/
-    position: fixed;
+    position: sticky;
+    position: -webkit-sticky; /* Safari */
     bottom: 0px;
     
     
@@ -294,7 +295,7 @@ p {
 
 }
 
-.department-id {
+.department-id, .department-location-id, #department-id {
     display: none;
 }
 
@@ -396,4 +397,10 @@ p {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  #edit-location-id {
+      display: none;
+  }
+
+  
 

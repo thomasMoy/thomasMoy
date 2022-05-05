@@ -76,7 +76,7 @@
                         <!--add, filter, remove filter buttons-->
                       <div id="wide-department-button-container">
                       <button type="button" class="btn btn-primary" title="Add New Deparment" data-bs-toggle="modal" data-bs-target="#addDepartmentModal"><i class="fa-solid fa-plus fa-xl"></i></button>
-                      <button type="button" class="btn btn-primary" title="Edit Department" data-bs-toggle="modal" data-bs-target="#editDepartmentModal"><i id="department-location-action-pen-to-square" class="fa-solid fa-pen-to-square fa-xl"></i></button>
+                      <!--<button type="button" class="btn btn-primary" title="Edit Department" data-bs-toggle="modal" data-bs-target="#editDepartmentModal"><i id="department-location-action-pen-to-square" class="fa-solid fa-pen-to-square fa-xl"></i></button>-->
                       </div>
                       
                       <!--add, filter, remove filter buttons-->
@@ -93,7 +93,7 @@
               <div class="mobile-container">
                 <div id="mobile-department-button-container">
                   <button type="button" class="btn btn-primary" title="Add New Deparment" data-bs-toggle="modal" data-bs-target="#addDepartmentModal"><i class="fa-solid fa-plus fa-xl"></i></button>
-                      <button type="button" class="btn btn-primary" title="Edit Department" data-bs-toggle="modal" data-bs-target="#editDepartmentModal"><i id="department-location-action-pen-to-square" class="fa-solid fa-pen-to-square fa-xl"></i></button>
+                      
                       
                       
                   </div>
@@ -110,7 +110,6 @@
 
                       <div id="wide-location-button-container">
                         <button type="button" class="btn btn-primary" title="Add New Location" data-bs-toggle="modal" data-bs-target="#addLocationModal"><i class="fa-solid fa-plus fa-xl"></i></button>
-                        <button type="button" class="btn btn-primary" title="Edit Location" data-bs-toggle="modal" data-bs-target="#editLocationModal"><i id="department-location-action-pen-to-square" class="fa-solid fa-pen-to-square fa-xl"></i></button>
                       </div>
                       
                       <!--add, filter, remove filter buttons-->
@@ -119,34 +118,11 @@
               </div>
                 
                   <div id="location-results">
-                    <!--<div class="accordion" id="location-results-accordion">
-                      <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingOne">
-                          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            New York
-                          </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#location-results-accordion">
-                          <div class="accordion-body">
-                            <div class="location-results-container">
-                              <div class="location-results-header">
-                                <h6 class="location-results-department-name">Human Resources</h6>
-                              </div>
-                              <div class="location-results-body">
-                                
-                                
-                                
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>-->
+                
                   </div>
                   <div class="mobile-container">
                     <div id="mobile-location-button-container">
                       <button type="button" class="btn btn-primary" title="Add New Location" data-bs-toggle="modal" data-bs-target="#addLocationModal"><i class="fa-solid fa-plus fa-xl"></i></button>
-                            <button type="button" class="btn btn-primary" title="Edit Location" data-bs-toggle="modal" data-bs-target="#editDepartmentModal"><i id="department-location-action-pen-to-square" class="fa-solid fa-pen-to-square fa-xl"></i></button>
                       </div>
                     </div>
 
@@ -188,7 +164,7 @@
                   </div>
                   <div id="add-employee-modal-footer" class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" id="add-employee-step-one-button" class="btn btn-primary">Add</button>
+                    <button type="submit" id="add-employee-step-one-button" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
                   </div>
                 </form>
                 </div>
@@ -216,7 +192,7 @@
                   </div>
                   <div id="add-department-modal-footer" class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" id="add-department-step-one-button" type="button" class="btn btn-primary">Add</button>
+                    <button type="submit" id="add-department-step-one-button" type="button" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
                   </div>
                 </form>
                 </div>
@@ -238,7 +214,7 @@
                   </div>
                   <div id="add-location-modal-footer" class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" id="add-location-step-one-button" type="button" class="btn btn-primary">Add</button>
+                    <button type="submit" id="add-location-step-one-button" type="button" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
                   </div>
                 </form>
                 </div>
@@ -258,28 +234,29 @@
 
                   <div class="modal-body">
                     
-                    <select class="form-select" aria-label="Default select example" name="location" id="editdeptlist" required>
+                    <!--<select class="form-select" aria-label="Default select example" name="location" id="editdeptlist" required>
                       <option selected disabled="disabled">Select Department...</option>
-                    </select>
-                    <div id="edit-dept-options">
-                      <input type="text" class="form-control" id="updated-department-name" placeholder="Update department name...">
+                    </select>-->
+                    <!--<div id="edit-dept-options">-->
+                      <p id="department-id"></p>
+                      <input type="text" class="form-control" id="updated-department-name">
                       <p>--Update Location--</p>
                       <p id="edit-dept-warning-text">If location does not appear below it must be added via the location tab first</p>
                       <select class="form-select" aria-label="Default select example" name="location" id="editdeptlocationlist" required>
                         <option selected disabled="disabled">Select Location...</option>
                       </select>
                       <button id="edit-department-delete-button" type="button" class="btn btn-danger">Delete Department</button>
-                    </div>
+                    <!--</div>-->
                   
                   </div>
                   <div id="edit-department-modal-footer" class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="edit-department-step-one-button" type="submit" class="btn btn-primary">Update</button>
+                    <button id="edit-department-step-one-button" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
                   </div>
                   <div id="delete-department-confirmation-modal-footer" class="modal-footer">
                     <p id="departmentToDelete"></p>
                     <button id="delete-department-go-back-button" type="button" class="btn btn-danger" >Go Back</button>
-                    <button id="delete-department-proceed-button" type="button" class="btn btn-success">Proceed</button>
+                    <button id="delete-department-proceed-button" type="button" class="btn btn-success" data-bs-dismiss="modal">Proceed</button>
                   </div>
                   <div id="delete-department-error-modal-footer" class="modal-footer">
                     <p id="departmentToEditError"></p>
@@ -298,31 +275,27 @@
                     <h5 class="modal-title" id="exampleModalLabel">Edit Location</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                  
                   <form id="edit-location-form">
                   <div class="modal-body">
-                    <p>Select a location to edit..</p>
-                  <br>
-                  <select id="edit-location-list" class="form-select" aria-label="Default select example" name="location" required>
-                    
-                  </select>
-                    <div id="edit-location-options">
-                    <input type="text" class="form-control" name="updatedLocation" id="updatedLocation" placeholder="Update location name...">
+                    <p id="edit-location-id"></p>
+                    <p>Update location name..</p>
+                    <input type="text" class="form-control" name="updatedLocation" id="updatedLocation">
+                    <br>
                     <button id="delete-location-button" type="button" class="btn btn-danger">Delete Location</button>
-                  </div>
+              
                   </div>
                   <div id="edit-location-modal-footer" class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="edit-location-step-one-button" class="btn btn-primary">Update</button>
+                    <button type="submit" id="edit-location-step-one-button" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
                   </div>
                   <div id="delete-location-confirmation-modal-footer" class="modal-footer">
                     <p id="locationToDelete"></p>
                     <button id="delete-location-go-back-button" type="button" class="btn btn-danger" >Go Back</button>
-                    <button id="delete-location-proceed-button" type="button" class="btn btn-success">Proceed</button>
+                    <button id="delete-location-proceed-button" type="button" class="btn btn-success" data-bs-dismiss="modal">Proceed</button>
                   </div>
                   <div id="delete-location-error-modal-footer" class="modal-footer">
                     <p id="locationToDeleteError"></p>
-                    <button id="delete-location-error-go-back-button" type="button" class="btn btn-danger" >Go Back</button>
+                    <button id="delete-location-error-go-back-button" type="button" class="btn btn-danger">Go Back</button>
                   </div>
                 </form>
                 </div>
@@ -360,12 +333,12 @@
                   <div id="edit-employee-modal-footer" class="modal-footer">
                     <button id="delete-employee-step-one-button" type="button" class="btn btn-danger">Delete Employee</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button id="edit-employee-proceed-button" type="button" class="btn btn-primary">Update</button>
+                    <button id="edit-employee-proceed-button" type="button" data-bs-dismiss="modal" class="btn btn-primary">Update</button>
                   </div>
                   <div id="delete-employee-confirmation-modal-footer" class="modal-footer">
                     <p id="employeeToDelete"></p>
                     <button id="delete-employee-go-back-button" type="button" class="btn btn-danger" >Go Back</button>
-                    <button id="delete-employee-proceed-button" type="button" class="btn btn-success">Proceed</button>
+                    <button id="delete-employee-proceed-button" type="button" class="btn btn-success" data-bs-dismiss="modal">Proceed</button>
                   </div>
                 </form>
                 </div>
