@@ -402,5 +402,11 @@ p {
       display: none;
   }
 
+  .location-id, .employee-id, #edit-dept-id-holder, #department-id, #delete-department-confirmation-id, #edit-location-id-holder {
+      display:none;
+  }
+
+  
+
   
 
